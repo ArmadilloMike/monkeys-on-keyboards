@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+
+header {
+    flex: 0 0 auto;
+}
+
+#monkey-gifs {
+    flex: 0 0 45%;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 4px;
+}
+
+#monkey-gifs img {
+    width: 85%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+#output-text {
+    flex: 1;
+    overflow-y: auto;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
