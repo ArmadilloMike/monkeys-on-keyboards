@@ -10,7 +10,7 @@ header {
 }
 
 #monkey-gifs {
-    flex: 0 0 45%;
+    flex: 0 0 40%;
     overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(20, 1fr);
@@ -18,7 +18,7 @@ header {
 }
 
 #monkey-gifs img {
-    width: 85%;
+    width: 78%;
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;

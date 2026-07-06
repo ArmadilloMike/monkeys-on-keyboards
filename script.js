@@ -1,3 +1,26 @@
+const monkeyGifs = [
+    "monkeys/monkey1.gif",
+    "monkeys/monkey2.gif",
+    "monkeys/monkey3.gif",
+    "monkeys/monkey4.gif",
+    "monkeys/monkey5.gif",
+    "monkeys/monkey6.gif",
+    "monkeys/monkey7.gif",
+    "monkeys/monkey8.gif",
+    "monkeys/monkey9.gif",
+    "monkeys/monkey10.gif"
+]
+let isRunning = false
+let mode = "spam"
+let intervalId = null
+
+const startBtn = document.getElementById("start-btn")
+const stopBtn = document.getElementById("stop-btn")
+const modeBtn = document.getElementById("mode-btn")
+const statusEl = document.getElementById("status")
+
+updateStatus()
+
 function buildGifBag(images, total) {
     const bag =[]
     while (bag.length < total) {
@@ -14,18 +37,9 @@ function shuffle(array) {
     return array;
 }
 
-const monkeyGifs = [
-    "monkeys/monkey1.gif",
-    "monkeys/monkey2.gif",
-    "monkeys/monkey3.gif",
-    "monkeys/monkey4.gif",
-    "monkeys/monkey5.gif",
-    "monkeys/monkey6.gif",
-    "monkeys/monkey7.gif",
-    "monkeys/monkey8.gif",
-    "monkeys/monkey9.gif",
-    "monkeys/monkey10.gif"
-]
+function updateStatus() {
+    statusEl.textContent = `Mode: ${mode === "spam" ? "Spam": "Words"} - ${isRunning ? "Running" : "Stopped"}`
+}
 
 const grid = document.getElementById("monkey-gifs")
 const bag = shuffle(buildGifBag(monkeyGifs, 100));
@@ -35,3 +49,19 @@ for (let i = 0; i < 100; i++) {
     img.src = bag[i];
     grid.appendChild(img);
 }
+
+startBtn.addEventListener("click", () => {
+    isRunning = true
+    updateStatus()
+})
+
+stopBtn.addEventListener("click", () => {
+    isRunning = false
+    updateStatus()
+})
+
+modeBtn.addEventListener("click", () => {
+    mode = mode === "spam" ? "words" : "spam"
+    modeBtn.textContent = "Mode: " + (mode === "spam" ? "Spam" : "Words")
+    updateStatus()
+})
