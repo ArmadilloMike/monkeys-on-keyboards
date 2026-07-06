@@ -8,13 +8,22 @@ const monkeyGifs = [
     "monkeys/monkey7.gif",
     "monkeys/monkey8.gif",
     "monkeys/monkey9.gif",
-    "monkeys/monkey10.gif"
+    "monkeys/monkey10.gif",
+    "monkeys/monkey11.gif",
+    "monkeys/monkey12.gif"
 ]
 let isRunning = false
 let mode = "spam"
 let intervalId = null
 let spamSpeed = 170
 let wordSpeed = 380
+let romeoAndJuliet
+
+fetch("randj.txt")
+    .then(response => response.text())
+    .then(text => {
+        romeoAndJuliet = text;
+    });
 
 const startBtn = document.getElementById("start-btn")
 const stopBtn = document.getElementById("stop-btn")
@@ -54,6 +63,25 @@ function generateSpam() {
 function generateWords() {
     return wordList[Math.floor(Math.random() * wordList.length)] + " ";
 }
+function clearWords() {
+    outputText.textContent = ""
+}
+function shakespeare() {
+    clearInterval(intervalId)
+    outputText.textContent = ""
+    
+    const words = romeoAndJuliet.split(/\s+/)
+    let index = 0
+    
+    intervalId = setInterval(() => {
+        if (index >= words.length) {
+            clearInterval(intervalId)
+            return
+        }
+        appendToFeed(words[index] + " ")
+        index++
+    }, wordSpeed)
+}
 
 function appendToFeed(text) {
     outputText.textContent += text
@@ -61,6 +89,9 @@ function appendToFeed(text) {
 }
 
 function tick() {
+    if (Math.random() < 0.001 && mode === "words") {
+        shakespeare()
+    }
     const chunk = mode === "spam" ? generateSpam() : generateWords()
     appendToFeed(chunk)
 }
@@ -91,5 +122,5 @@ modeBtn.addEventListener("click", () => {
     updateStatus()
 })
 clearBtn.addEventListener("click", () => {
-    outputText.textContent = "\n    "
+    clearWords()
 })
