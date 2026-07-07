@@ -43,6 +43,7 @@ const modeBtn = document.getElementById("mode-btn")
 const clearBtn = document.getElementById("clear-btn")
 const printBtn = document.getElementById("print-btn")
 const muteBtn = document.getElementById("mute-btn")
+const saveBtn = document.getElementById("save-btn")
 const speedSlider = document.getElementById("speedslider")
 
 const statusEl = document.getElementById("status")
@@ -120,6 +121,19 @@ function playMonkeySound() {
 function appendToFeed(text) {
     outputText.textContent += text
     outputText.scrollTop = outputText.scrollHeight
+}
+
+function saveOutput() {
+    const textToSave = outputText.textContent
+    
+    const blob = new Blob([textToSave], {type: "text/plain"})
+    const url = URL.createObjectURL(blob)
+    
+    const link = document.createElement("a")
+    link.href = url
+    link.download = "monkey-output.txt"
+    link.click()
+    url.revokeObjectURL(url)
 }
 
 function animateMonkey() {
@@ -210,6 +224,9 @@ muteBtn.addEventListener("click", () => {
         muteBtn.textContent = "Unmute All Sounds"
         muted = true
     }
+})
+saveBtn.addEventListener("click", () => {
+    saveOutput()
 })
 speedSlider.addEventListener("input", () => {
     const newSpeed = Number(speedSlider.value)
