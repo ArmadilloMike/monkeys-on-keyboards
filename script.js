@@ -28,14 +28,17 @@ let isRunning = false
 let mode = "spam"
 let intervalId = null
 let speed = 170
-let romeoAndJuliet
+let romeoAndJuliet = ""
 let muted = false
 
 fetch("shakespeare.txt")
     .then(response => response.text())
     .then(text => {
-        romeoAndJuliet = text;
-    });
+        romeoAndJuliet = text
+    })
+    .catch(() => {
+        romeoAndJuliet = ""
+    })
 
 const startBtn = document.getElementById("start-btn")
 const stopBtn = document.getElementById("stop-btn")
@@ -85,15 +88,22 @@ function clearWords() {
     outputText.textContent = ""
 }
 function shakespeare() {
+    if (!romeoAndJuliet) {
+        statusEl.textContent = "Shakespeare text is still loading..."
+        return
+    }
+
     clearInterval(intervalId)
     const words = romeoAndJuliet.split(/\s+/)
     let index = 0
+    isRunning = true
     statusEl.textContent = `Mode: Shakespeare - The monkeys have gained a higher intelligence`
     header.textContent = "100 Monkeys typing Shakespeare"
     mode = "shakespeare"
     intervalId = setInterval(() => {
         if (index >= words.length) {
             clearInterval(intervalId)
+            isRunning = false
             return
         }
         appendToFeed(words[index] + " ")
@@ -133,7 +143,7 @@ function saveOutput() {
     link.href = url
     link.download = "monkey-output.txt"
     link.click()
-    url.revokeObjectURL(url)
+    URL.revokeObjectURL(url)
 }
 
 function animateMonkey() {
@@ -158,9 +168,13 @@ function tick() {
     if (Math.random() < 0.001 && mode === "words") {
         clearWords()
         shakespeare()
-    } if (Math.random() < 0.0001 && mode === "spam") {
+        return
+    }
+
+    if (Math.random() < 0.0001 && mode === "spam") {
         clearWords()
         shakespeare()
+        return
     }
 
     if (Math.random() < 0.8) {
@@ -173,7 +187,7 @@ function tick() {
     if (Math.random() < 0.5) {
         playSound()
     }
-    
+
     const chunk = mode === "spam" ? generateSpam() : generateWords()
     appendToFeed(chunk)
 }
