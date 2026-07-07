@@ -18,6 +18,12 @@ const sounds = [
     "sounds/sound3.mp3",
     "sounds/sound4.mp3"
 ]
+const monkeySounds = [
+    "sounds/monkeysound1.mp3",
+    "sounds/monkeysound2.mp3",
+    "sounds/monkeysound3.mp3",
+    "sounds/monkeysound4.mp3"
+]
 let isRunning = false
 let mode = "spam"
 let intervalId = null
@@ -82,6 +88,7 @@ function shakespeare() {
     const words = romeoAndJuliet.split(/\s+/)
     let index = 0
     statusEl.textContent = `Mode: Shakespeare - The monkeys have gained a higher intelligence`
+    header.textContent = "100 Monkeys typing Shakespeare"
     mode = "shakespeare"
     intervalId = setInterval(() => {
         if (index >= words.length) {
@@ -94,8 +101,18 @@ function shakespeare() {
 }
 
 function playSound() {
+    if (muted) return
+    
     const randomIndex = Math.floor(Math.random() * sounds.length)
     const sound = sounds[randomIndex]
+    let pickedSound = new Audio(sound)
+    pickedSound.play()
+}
+function playMonkeySound() {
+    if (muted) return
+    
+    const randomIndex = Math.floor(Math.random() * monkeySounds.length)
+    const sound = monkeySounds[randomIndex]
     let pickedSound = new Audio(sound)
     pickedSound.play()
 }
@@ -132,11 +149,14 @@ function tick() {
         shakespeare()
     }
 
-    if (Math.random() < 0.9) {
+    if (Math.random() < 0.8) {
         animateMonkey()
+        if (Math.random() < 0.3) {
+            playMonkeySound()
+        }
     }
 
-    if (Math.random() < 0.5 && muted === false) {
+    if (Math.random() < 0.5) {
         playSound()
     }
     
