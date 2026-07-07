@@ -1,4 +1,5 @@
 # 100 Monkeys on Keyboards
+DISCLAMER: No monkeys were harmed in the making of the project (maybe)
 
 This is a simple webpage that generates random characters/words via monkeys
 
@@ -14,3 +15,4 @@ This is a simple webpage that generates random characters/words via monkeys
 | (Un)Mute All Sounds  | Mutes or Unmutes all sounds playing                   |
 
 Can you find the easter egg?
+
