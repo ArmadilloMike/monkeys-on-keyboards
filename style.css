@@ -1,24 +1,92 @@
+:root {
+    color-scheme: light dark;
+}
+
+.special-elite-regular {
+    font-family: "Special Elite", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
 body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    margin: 0;
+    margin: 0 10px 8px 20px;
+
+    @media (prefers-color-scheme: dark) {
+        background-color: #202020;
+        color: #ffffff;
+    }
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+button {
+    padding: 8px 14px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #d49a3a;
+    color: #1f160d;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+#buttons button {
+    font-family: "Special Elite", sans-serif;
+
+}
+
+#start-btn {
+    background-color: #3f8f46;
+    color: white;
+}
+
+#stop-btn {
+    background-color: #9f2f2f;
+}
+
+#mode-btn {
+    background-color: #4b5fa8;
+    color: white;
+}
+
+#clear-btn {
+    background-color: #d98732;
+}
+
+#print-btn {
+    background-color: #5f5f5f;
 }
 
 header {
     flex: 0 0 auto;
+    font-family: "Special Elite", sans-serif;
+    text-align: center;
 }
 
 #monkey-gifs {
     flex: 0 0 40%;
     overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(20, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(55px, 1fr));
     gap: 4px;
+    margin-top: 10px;
 }
 
 #monkey-gifs img {
-    width: 78%;
+    width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
@@ -27,6 +95,28 @@ header {
 #output-text {
     flex: 1;
     overflow-y: auto;
-    font-family: monospace;
+    font-family: "Special Elite", sans-serif;
     white-space: pre-wrap;
+}
+
+
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    
+    #output-text,
+    #output-text * {
+        visibility: visible;
+    }
+    
+    #output-text {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
 }
