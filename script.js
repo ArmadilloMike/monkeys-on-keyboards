@@ -15,8 +15,7 @@ const monkeyGifs = [
 let isRunning = false
 let mode = "spam"
 let intervalId = null
-let spamSpeed = 170
-let wordSpeed = 3 //380
+let speed = 170
 let romeoAndJuliet
 
 fetch("shakespeare.txt")
@@ -30,6 +29,7 @@ const stopBtn = document.getElementById("stop-btn")
 const modeBtn = document.getElementById("mode-btn")
 const clearBtn = document.getElementById("clear-btn")
 const printBtn = document.getElementById("print-btn")
+const speedSlider = document.getElementById("speedslider")
 
 const statusEl = document.getElementById("status")
 const header = document.getElementById("header")
@@ -82,12 +82,30 @@ function shakespeare() {
         }
         appendToFeed(words[index] + " ")
         index++
-    }, wordSpeed)
+    }, speed)
 }
 
 function appendToFeed(text) {
     outputText.textContent += text
     outputText.scrollTop = outputText.scrollHeight
+}
+
+function animateMonkey() {
+    const monkeys = document.querySelectorAll("#monkey-gifs img")
+    const animations = ["monkey-shake", "monkey-bounce", "monkey-spin", "monkey-glow"]
+    
+    if (monkeys.length === 0) return
+    
+    const monkey = monkeys[Math.floor(Math.random() * monkeys.length)]
+    const animation = animations[Math.floor(Math.random() * animations.length)]
+    
+    monkey.classList.remove(...animations)
+    void monkey.offsetWidth
+    monkey.classList.add(animation)
+    
+    setTimeout(() => {
+        monkey.classList.remove(animation)
+    }, 700)
 }
 
 function tick() {
@@ -98,6 +116,11 @@ function tick() {
         clearWords()
         shakespeare()
     }
+
+    if (Math.random() < 0.9) {
+        animateMonkey()
+    }
+    
     const chunk = mode === "spam" ? generateSpam() : generateWords()
     appendToFeed(chunk)
 }
@@ -113,7 +136,6 @@ for (let i = 0; i < 100; i++) {
 startBtn.addEventListener("click", () => {
     if (isRunning) return
     isRunning = true
-    const speed = mode === "spam" ? spamSpeed : wordSpeed
     intervalId = setInterval(tick, speed)
     updateStatus()
 })
@@ -141,6 +163,15 @@ clearBtn.addEventListener("click", () => {
 printBtn.addEventListener("click", () => {
     window.print()
 })
+speedSlider.addEventListener("input", () => {
+    const newSpeed = Number(speedSlider.value)
+    
+    speed = newSpeed
+    
+    if (isRunning && mode !== "shakespeare") {
+        clearInterval(intervalId)
+        intervalId = setInterval(tick, newSpeed)
+    }
+})
 
-
-//TODO: Monkey effects
+//TODO: Sound effects
