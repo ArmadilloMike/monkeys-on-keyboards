@@ -70,6 +70,10 @@ button:active {
     background-color: #5f5f5f;
 }
 
+#mute-btn {
+    background-color: #0c553c;
+}
+
 header {
     flex: 0 0 auto;
     font-family: "Special Elite", sans-serif;

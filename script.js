@@ -12,11 +12,18 @@ const monkeyGifs = [
     "monkeys/monkey11.gif",
     "monkeys/monkey12.gif"
 ]
+const sounds = [
+    "sounds/sound1.mp3",
+    "sounds/sound2.mp3",
+    "sounds/sound3.mp3",
+    "sounds/sound4.mp3"
+]
 let isRunning = false
 let mode = "spam"
 let intervalId = null
 let speed = 170
 let romeoAndJuliet
+let muted = false
 
 fetch("shakespeare.txt")
     .then(response => response.text())
@@ -29,6 +36,7 @@ const stopBtn = document.getElementById("stop-btn")
 const modeBtn = document.getElementById("mode-btn")
 const clearBtn = document.getElementById("clear-btn")
 const printBtn = document.getElementById("print-btn")
+const muteBtn = document.getElementById("mute-btn")
 const speedSlider = document.getElementById("speedslider")
 
 const statusEl = document.getElementById("status")
@@ -85,6 +93,13 @@ function shakespeare() {
     }, speed)
 }
 
+function playSound() {
+    const randomIndex = Math.floor(Math.random() * sounds.length)
+    const sound = sounds[randomIndex]
+    let pickedSound = new Audio(sound)
+    pickedSound.play()
+}
+
 function appendToFeed(text) {
     outputText.textContent += text
     outputText.scrollTop = outputText.scrollHeight
@@ -119,6 +134,10 @@ function tick() {
 
     if (Math.random() < 0.9) {
         animateMonkey()
+    }
+
+    if (Math.random() < 0.5 && muted === false) {
+        playSound()
     }
     
     const chunk = mode === "spam" ? generateSpam() : generateWords()
@@ -163,6 +182,15 @@ clearBtn.addEventListener("click", () => {
 printBtn.addEventListener("click", () => {
     window.print()
 })
+muteBtn.addEventListener("click", () => {
+    if (muted) {
+        muteBtn.textContent = "Mute All Sounds"
+        muted = false
+    } else {
+        muteBtn.textContent = "Unmute All Sounds"
+        muted = true
+    }
+})
 speedSlider.addEventListener("input", () => {
     const newSpeed = Number(speedSlider.value)
     
@@ -173,5 +201,3 @@ speedSlider.addEventListener("input", () => {
         intervalId = setInterval(tick, newSpeed)
     }
 })
-
-//TODO: Sound effects
